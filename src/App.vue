@@ -1,11 +1,21 @@
 <script setup>
 import {  RouterView } from 'vue-router'
 import Login from './views/Login.vue'
+import Sidebar from './components/Sidebar.vue'
+import Sidebart from './components/TestNavbar.vue'
+import '@fortawesome/fontawesome-free/css/all.css';
+
 </script>
 
 <template>  
+<Sidebar />
 
-  <RouterView />
+  <div class="content">
+      <router-view></router-view>
+    </div>
+
+
+
 </template>
 
 <style scoped>
@@ -43,6 +53,10 @@ nav a {
 nav a:first-of-type {
   border: 0;
 }
+.content {
+  margin-left: 200px; /* Adjust the margin to accommodate your sidebar width */
+  padding: 20px;
+}
 
 @media (min-width: 1024px) {
   header {
@@ -69,5 +83,6 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+
 }
 </style>
