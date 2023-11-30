@@ -1,16 +1,24 @@
 <template>
 <body>
   <div class="login-container">
-    <h1>LOGIN PAGE</h1>
+
+    <h1><b>Hello Again!</b></h1><br>
+
+    <h2>LOGIN</h2>
+
     <form  @submit.prevent="login">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" v-model="username" @input="validateUsername" required><br/>
-    <p v-if="showValidationMessage">{{ validationMessage }}</p>
 
-    <label for="password">Password:</label>
-    <input type="number" id="password" name="password" v-model="password" inputmode="numeric"><br><br>
+    
+    <input type="text" id="username" name="username" v-model="username" @input="validateUsername" placeholder ="Enter name" ><br>
+    <span v-if="usernameError" class="message">{{ usernameError }}</span><br> 
 
-     <button type="submit">LOGIN</button><br>
+    
+    <input type="number" id="password" name="password" v-model="password" @input="validatePassword" placeholder ="Enter password"><br>
+    <span v-if="passwordError" class="message">{{ passwordError }}</span><br>
+
+    <button type="submit">Sign in</button><br>
+    <span v-if="merror" class="message">{{ merror }}</span> 
+
    </form>
   </div>
   </body>
@@ -22,50 +30,55 @@ export default {
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      usernameError: '',
+      passwordError: '',
+      merror: ''
     };
   },
 
  methods: {
-     validateUsername(){
-        const alphabet = /^[A-Za-z]+$/;
 
-    
-      }
-    },
+  validateUsername(){
+    const regex = /^[a-zA-Z]+$/;
 
-    validationMessage(){
-        let message = "";
-        if (!alphabet.test(this.username)) {
-            message += "Please enter only alphabetic characters in the username field.";
-        alert('Please enter only alphabetic characters in the username field.');
-        
-        this.username = '';
-        }
-    },
+    if (!regex.test(this.username)){
+      console.log("wrong")
+      this.usernameError = 'Use alphabets only..!';
+      this.username ='';
+    } else {
+      console.log("yes")
+      this.usernameError = '';
+    }
+  },
+
+  validatePassword(){
+    const regex = /^[0-9]+$/;
+
+    if(!regex.test(this.password)){
+      this.passwordError = 'use numbers only..!';
+      this.passsword = '';
+    } else {
+      this.passwordError = '';
+    }
+  },
+
 
     async login() {
         if (this.username === "Admin" && this.password === 11) {
             console.log('logged in..!')
             this.$router.push('/HomeView');
         } else if (this.username === '' || this.password === '') {
-            alert('Enter essential details');
+           console.log('enter login credentials')
+            this.merror = 'Enter login credentials..!';
         } else {
-            console.log("Wrong..")
-            alert("Wrong username or password..!");
+          console.log('invalid')
+            this.merror = 'Invalid username or password..!';
         }
     }
-
+ }
+};
     
-    };
-    
-
-
-
-
-
-    
-
 </script>
 
 
@@ -74,12 +87,8 @@ export default {
 
 
 .login-container {
-  font-family: 'Gill Sans', sans-serif;
-  background-image: url('~@/assets/crm.jpg');
+  font-family: 'Quicksand', sans-serif;
   text-align: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;   
   margin: 0;
   padding: 0;
   color: #333;
@@ -96,21 +105,28 @@ body {
 }
 
 form {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(102, 0, 51, 0.5);
   margin: 20px auto;
   max-width: 400px;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 5px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
+  font-family: 'Roboto Mono', monospace;
+  text-align: center;
+  color: #333333;
+}
+
+h2 {
+  font-family: 'Gill Sans', sans-serif;
   text-align: center;
   color: #333333;
 }
 
 label {
-  font-family: "Georgia", Times, serif;
+  font-family: 'Gill Sans', sans-serif;
   font-size: 18px;
   font-weight: bold;
   color: #333;
@@ -121,7 +137,12 @@ input {
   width: 80%;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 3px;
+}
+
+.message {
+  font-family: 'Roboto Mono', monospace;
+  color: #ac0707;
 }
 
 p{
@@ -129,7 +150,7 @@ p{
 }
 
 button {
-  background-color: #00d1d1;
+  background-color: #660033;
   color: #ffffff;
   padding: 10px;
   border: none;
